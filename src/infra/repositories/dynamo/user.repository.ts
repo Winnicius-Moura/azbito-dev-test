@@ -59,7 +59,7 @@ export class DynamoUserRepository implements UserRepository.Repository<UserEntit
         throw new Error('User not found after update');
       }
 
-      return this.mapToEntity(result.Attributes.id);
+      return this.mapToEntity(result.Attributes);
     } catch (error) {
       console.error('Error updating user:', error);
       throw error;

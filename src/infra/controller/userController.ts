@@ -48,7 +48,7 @@ export class UserController {
 
       const user = await useCase.execute(id, req.body);
 
-      res.status(200).json(user.toJSON());
+      res.status(200).json({ user, message: `User ${user.props.name} atualizado` });
     } catch (error) {
       if (error === 'User not found') {
         res.status(404).json({ message: error });
