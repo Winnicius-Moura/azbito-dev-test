@@ -60,3 +60,5 @@ export class UserEntity extends Entity<UserProps> {
   }
 
 }
+
+export { UserType }

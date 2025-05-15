@@ -17,9 +17,9 @@ export class UpdateUserUseCase {
     existingUser.update({
       name: input.name,
       email: input.email,
-      type: input.type ? UserType.fromString(input.type) : existingUser.props.type,
+      type: input.type ? UserType.validate(input.type) : existingUser.props.type,
     });
-    
+
     return this.repository.update(existingUser);
   }
 }

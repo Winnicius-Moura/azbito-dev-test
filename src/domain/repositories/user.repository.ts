@@ -5,7 +5,7 @@ export namespace UserRepository {
     save(entity: E): Promise<E>
     findById(id: string): Promise<E | null>
     update(entity: E): Promise<E>
-    // findAll(): Promise<E[]>
+    findAll(): Promise<E[]>
     // delete(id: string): Promise<void>;
   }
 }

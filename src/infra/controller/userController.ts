@@ -1,5 +1,6 @@
 import { CreateUserUseCase } from '@/application/use-cases/create-user.use-case';
 import { FindUserByIdUseCase } from '@/application/use-cases/findById-user.use-case';
+import { ListUsersUseCase } from '@/application/use-cases/list-user.use-case';
 import { UpdateUserUseCase } from '@/application/use-cases/update-user.use-case';
 import { DynamoProvider } from '@/shared/infrastructure/persistence/dynamo-provider';
 import { Request, Response } from 'express';
@@ -60,4 +61,17 @@ export class UserController {
       }
     }
   }
+
+  static async findAll(req: Request, res: Response): Promise<void> {
+    try {
+      const repository = DynamoProvider.getUserRepository()
+      const useCase = new ListUsersUseCase(repository)
+      const users = await useCase.execute()
+
+      res.status(200).json(users?.map((user) => user.toJSON()));
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  }
+
 }

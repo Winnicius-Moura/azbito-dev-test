@@ -1,9 +1,9 @@
-import { UserEntity, UserProps } from "@/domain/models/user.entity";
-import { UserRepository } from "@/domain/repositories/user.repository";
-import { DynamoService } from "@/shared/infrastructure/persistence/dynamo.service";
+import { UserEntity, UserProps } from "@/domain/models/user.entity"
+import { UserRepository } from "@/domain/repositories/user.repository"
+import { DynamoService } from "@/shared/infrastructure/persistence/dynamo.service"
 
 export class DynamoUserRepository implements UserRepository.Repository<UserEntity> {
-  private readonly tableName = 'Users';
+  private readonly tableName = 'Users'
   constructor(private readonly dynamoService: DynamoService) { }
 
   async save(user: UserEntity): Promise<UserEntity> {
@@ -50,20 +50,27 @@ export class DynamoUserRepository implements UserRepository.Repository<UserEntit
         ':updatedAt': updatedAt.toISOString()
       },
       ReturnValues: 'ALL_NEW'
-    };
+    }
 
     try {
-      const result = await this.dynamoService.client.update(params).promise();
-
-      if (!result.Attributes) {
-        throw new Error('User not found after update');
-      }
-
-      return this.mapToEntity(result.Attributes);
+      const result = await this.dynamoService.client.update(params).promise()
+      return this.mapToEntity(result.Attributes)
     } catch (error) {
-      console.error('Error updating user:', error);
-      throw error;
+      console.error('Error updating user:', error)
+      throw error
     }
+  }
+
+  async findAll(): Promise<UserEntity[]> {
+    const result = await this.dynamoService.client.scan({
+      TableName: this.tableName
+    }).promise()
+
+    if (!result.Items) {
+      return []
+    }
+
+    return result.Items.map((item) => this.mapToEntity(item))
   }
 
   private mapToEntity(item: any): UserEntity {
@@ -73,7 +80,7 @@ export class DynamoUserRepository implements UserRepository.Repository<UserEntit
       type: item.type,
       createdAt: new Date(item.createdAt),
       updatedAt: item.updatedAt ? new Date(item.updatedAt) : undefined,
-    }, item.id);
+    }, item.id)
   }
 
   private toPersistence(user: UserEntity): UserProps {
@@ -84,6 +91,6 @@ export class DynamoUserRepository implements UserRepository.Repository<UserEntit
       type: user.props.type,
       createdAt: user.props.createdAt?.toISOString(),
       updatedAt: user.props.updatedAt ? new Date(user.props.updatedAt) : undefined,
-    } as UserProps;
+    } as UserProps
   }
 }
