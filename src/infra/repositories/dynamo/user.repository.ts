@@ -73,6 +73,22 @@ export class DynamoUserRepository implements UserRepository.Repository<UserEntit
     return result.Items.map((item) => this.mapToEntity(item))
   }
 
+  async delete(id: string): Promise<void> {
+    try {
+      await this.dynamoService.client.delete({
+        TableName: this.tableName,
+        Key: { id },
+        ConditionExpression: 'attribute_exists(id)',
+      }).promise()
+    } catch (error) {
+      if ((error as any).code === 'ConditionalCheckFailedException') {
+        throw new Error(`User with id ${id} does not exist`);
+      }
+      throw error;
+    }
+    
+  }
+
   private mapToEntity(item: any): UserEntity {
     return new UserEntity({
       name: item.name,

@@ -6,10 +6,10 @@ export class FindUserByIdUseCase {
 
   async execute(id: string): Promise<UserEntity | null> {
     try {
-      return await this.repository.findById(id);
+      return await this.repository.findById(id)
     } catch (error) {
-      console.error('Error in FindUserByIdUseCase:', error);
-      throw error;
+      console.error('Error in FindUserByIdUseCase:', error)
+      throw error
     }
   }
 }
