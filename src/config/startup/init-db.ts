@@ -1,6 +1,7 @@
-import { db } from '@/config/dynamodb'
+import { DynamoProvider } from '@/shared/infrastructure/persistence/dynamo-provider'
+import { DynamoDB } from 'aws-sdk'
 
-const tables = [
+const tables: DynamoDB.CreateTableInput[] = [
   {
     TableName: 'Users',
     AttributeDefinitions: [{ AttributeName: 'id', AttributeType: 'S' }],
@@ -25,7 +26,7 @@ const tables = [
         ProvisionedThroughput: { ReadCapacityUnits: 5, WriteCapacityUnits: 5 },
       },
       {
-        IndexName: 'TypeIndex', 
+        IndexName: 'TypeIndex',
         KeySchema: [{ AttributeName: 'type', KeyType: 'HASH' }],
         Projection: { ProjectionType: 'ALL' },
         ProvisionedThroughput: { ReadCapacityUnits: 5, WriteCapacityUnits: 5 },
@@ -59,8 +60,7 @@ const tables = [
 
 export async function initDatabase(): Promise<void> {
   try {
-    const existing = await db.listTables().promise()
-    const existingTables = existing.TableNames || []
+    const { TableNames: existingTables = [] } = await DynamoProvider.listTables();
 
     for (const table of tables) {
       if (existingTables.includes(table.TableName)) {
@@ -68,7 +68,7 @@ export async function initDatabase(): Promise<void> {
         continue
       }
 
-      await db.createTable(table).promise()
+      await DynamoProvider.createTable(table);
       console.log(`Tabela criada: ${table.TableName}`)
     }
 
