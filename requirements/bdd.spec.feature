@@ -4,20 +4,20 @@ Este documento descreve os comportamentos esperados da aplicação com base no t
 Feature: Gerenciar Usuários
 
 **Como** um administrador da plataforma
-**Quero** poder cadastrar, buscar, listar, atualizar e excluir usuários
+**Quero** poder cadastrar ✅, buscar ✅, listar✅, atualizar✅ e excluir usuários
 **Para que** eu tenha controle sobre quem usa o sistema
 
 Scenario: Criar usuário com sucesso
 
-Given que o payload enviado contém name, email e type válidos
+Given que o payload enviado contém name, email e type válidos ✅
 When o endpoint POST /users é chamado
-Then um usuário é criado com ID e dados retornados
+Then um usuário é criado com ID e dados retornados ✅
 
 Scenario: Não permitir tipo inválido
 
-Given que o campo "type" é diferente de "owner" ou "customer"
+Given que o campo "type" é diferente de "owner" ou "customer" ✅
 When o endpoint POST /users é chamado
-Then deve retornar erro 400 com mensagem de tipo inválido
+Then deve retornar erro 400 com mensagem de tipo inválido ✅
 
 Feature: Criar Estabelecimento
 
