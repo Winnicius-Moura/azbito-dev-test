@@ -1,8 +1,8 @@
-import { CreateUserUseCase } from '@/application/use-cases/create-user.use-case'
-import { DeleteUserUseCase } from '@/application/use-cases/delete-user.use-case'
-import { FindUserByIdUseCase } from '@/application/use-cases/findById-user.use-case'
-import { ListUsersUseCase } from '@/application/use-cases/list-user.use-case'
-import { UpdateUserUseCase } from '@/application/use-cases/update-user.use-case'
+import { CreateUserUseCase } from '@/application/use-cases/user/create-user.use-case'
+import { DeleteUserUseCase } from '@/application/use-cases/user/delete-user.use-case'
+import { FindUserByIdUseCase } from '@/application/use-cases/user/findById-user.use-case'
+import { ListUsersUseCase } from '@/application/use-cases/user/list-user.use-case'
+import { UpdateUserUseCase } from '@/application/use-cases/user/update-user.use-case'
 import { DynamoProvider } from '@/shared/infrastructure/persistence/dynamo-provider'
 import { Request, Response } from 'express'
 
