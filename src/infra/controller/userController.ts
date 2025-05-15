@@ -63,7 +63,7 @@ export class UserController {
     }
   }
 
-  static async findAll(req: Request, res: Response): Promise<void> {
+  static async findAll(_req: Request, res: Response): Promise<void> {
     try {
       const repository = DynamoProvider.getUserRepository()
       const useCase = new ListUsersUseCase(repository)

@@ -15,8 +15,8 @@ export class UserEntity extends Entity<UserProps> {
     id?: string,
   ) {
     super(props, id)
-    this.props.createdAt = this.props.createdAt || new Date()
-    this.props.updatedAt = this.props.updatedAt || new Date()
+    this.props.createdAt = this.props.createdAt ?? new Date()
+    this.props.updatedAt = this.props.updatedAt ?? undefined
     this.props.type = this.props.type || UserType.CUSTOMER
   }
 

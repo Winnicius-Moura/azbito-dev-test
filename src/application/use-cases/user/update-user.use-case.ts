@@ -1,15 +1,11 @@
-import { UserEntity} from "@/domain/models/user.entity"
+import { UserEntity, UserProps } from "@/domain/models/user.entity"
 import { UserRepository } from "@/domain/repositories/user.repository"
 import { UserType } from "@/shared/utils/types"
 
 export class UpdateUserUseCase {
   constructor(private readonly repository: UserRepository.Repository<UserEntity>) { }
 
-  async execute(id: string, input: {
-    name?: string
-    email?: string
-    type?: string
-  }): Promise<UserEntity> {
+  async execute(id: string, input: UserProps): Promise<UserEntity> {
     const existingUser = await this.repository.findById(id);
     if (!existingUser) {
       throw new Error('User not found');

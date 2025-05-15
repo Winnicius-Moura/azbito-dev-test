@@ -14,7 +14,7 @@ export class EstablishmentEntity extends Entity<EstablishmentProps> {
     EstablishmentEntity.validate(props)
     super(props, id)
     this.props.createdAt = this.props.createdAt ?? new Date()
-    this.props.updatedAt = this.props.updatedAt ?? new Date()
+    this.props.updatedAt = this.props.updatedAt ?? undefined
   }
 
   static validate(props: EstablishmentProps): void {
@@ -40,8 +40,8 @@ export class EstablishmentEntity extends Entity<EstablishmentProps> {
       name: this.props.name,
       ownerId: this.props.ownerId,
       type: this.props.type,
-      createdAt: this.props.createdAt ?? new Date(),
-      updatedAt: this.props.updatedAt ?? new Date(),
+      createdAt: this.props.createdAt as Date,
+      updatedAt: this.props.updatedAt as Date,
     } as Required<{ id: string } & EstablishmentProps>
   }
 }

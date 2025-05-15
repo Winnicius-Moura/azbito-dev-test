@@ -1,3 +1,4 @@
+import { DynamoEstablishmentRepository } from '@/infra/repositories/dynamo/establishment.repositry'
 import { DynamoUserRepository } from '@/infra/repositories/dynamo/user.repository'
 import { DynamoService } from '@/shared/infrastructure/persistence/dynamo.service'
 import { DynamoDB } from 'aws-sdk'
@@ -24,5 +25,9 @@ export class DynamoProvider {
 
   static getUserRepository(): DynamoUserRepository {
     return new DynamoUserRepository(this.getService())
+  }
+
+  static getEstablishmentRepository(): DynamoEstablishmentRepository {
+    return new DynamoEstablishmentRepository(this.getService());
   }
 }
