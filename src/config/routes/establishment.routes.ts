@@ -3,7 +3,7 @@ import { Router } from 'express'
 
 const router = Router()
 
-// router.get('/:id', EstablishmentController.findById)
+router.get('/:id', EstablishmentController.findById)
 // router.put('/:id', EstablishmentController.update)
 router.post('/', EstablishmentController.create)
 // router.get('/', EstablishmentController.findAll)
