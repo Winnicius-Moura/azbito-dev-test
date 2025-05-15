@@ -9,11 +9,12 @@ export class CreateUserUseCase {
     email: string;
     type: UserType;
   }): Promise<UserEntity> {
+    UserEntity.validate(input)
     const user = new UserEntity({
       name: input.name,
       email: input.email,
       type: input.type,
-    }, );
+    },);
 
     return this.userRepository.save(user);
   }

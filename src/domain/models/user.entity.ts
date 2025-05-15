@@ -5,6 +5,21 @@ export enum UserType {
   CUSTOMER = 'customer',
 }
 
+export namespace UserType {
+  export function fromString(value: string): UserType {
+    if (!Object.values(UserType).includes(value as UserType)) {
+      throw new Error(`Invalid user type: ${value}`);
+    }
+    return value as UserType;
+  }
+
+  export function isValid(value: string): value is UserType {
+    return Object.values(UserType).includes(value as UserType);
+  }
+
+  export const values = (): UserType[] => Object.values(UserType) as UserType[];
+}
+
 export interface UserProps {
   name: string
   email: string
@@ -18,7 +33,7 @@ export class UserEntity extends Entity<UserProps> {
     public readonly props: UserProps,
     id?: string,
   ) {
-    UserEntity.validate(props)
+    // UserEntity.validate(props)
     super(props, id)
     this.props.createdAt = this.props.createdAt || new Date()
     this.props.updatedAt = this.props.updatedAt || new Date()
@@ -31,6 +46,28 @@ export class UserEntity extends Entity<UserProps> {
     if (!Object.values(UserType).includes(props.type)) {
       throw new Error('Invalid user type');
     }
+  }
+
+  update(value: Partial<Pick<UserProps, 'name' | 'email' | 'type'>>): void {
+    if (value.name !== undefined) {
+      this.props.name = value.name;
+    }
+
+    if (value.email !== undefined) {
+      this.props.email = value.email;
+    }
+
+    if (value.type !== undefined) {
+      this.props.type = value.type;
+    }
+
+    this.touch();
+
+    UserEntity.validate(this.props);
+  }
+
+  private touch() {
+    this.props.updatedAt = new Date();
   }
 
   toJSON() {

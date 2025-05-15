@@ -1,9 +1,10 @@
-import { UserController } from '@/infra/controller/userController';
-import { Router } from 'express';
+import { UserController } from '@/infra/controller/userController'
+import { Router } from 'express'
 
-const router = Router();
+const router = Router()
 
-router.get('/:id', UserController.findById);
-router.post('/', UserController.create);
+router.get('/:id', UserController.findById)
+router.put('/:id', UserController.update)
+router.post('/', UserController.create)
 
-export default router;
+export default router

@@ -11,7 +11,7 @@ export class DynamoUserRepository implements UserRepository.Repository<UserEntit
       TableName: this.tableName,
       Item: this.toPersistence(user),
     }).promise()
-    
+
     return user
   }
 
@@ -26,6 +26,44 @@ export class DynamoUserRepository implements UserRepository.Repository<UserEntit
     }
 
     return this.mapToEntity(result.Item)
+  }
+
+
+  async update(user: UserEntity): Promise<UserEntity> {
+    const updatedAt = new Date()
+
+    const params = {
+      TableName: this.tableName,
+      Key: { id: user.id },
+      UpdateExpression: 'SET #name = :name, #email = :email, #type = :type, #updatedAt = :updatedAt',
+      ConditionExpression: 'attribute_exists(id)',
+      ExpressionAttributeNames: {
+        '#name': 'name',
+        '#email': 'email',
+        '#type': 'type',
+        '#updatedAt': 'updatedAt'
+      },
+      ExpressionAttributeValues: {
+        ':name': user.props.name,
+        ':email': user.props.email,
+        ':type': user.props.type,
+        ':updatedAt': updatedAt.toISOString()
+      },
+      ReturnValues: 'ALL_NEW'
+    };
+
+    try {
+      const result = await this.dynamoService.client.update(params).promise();
+
+      if (!result.Attributes) {
+        throw new Error('User not found after update');
+      }
+
+      return this.mapToEntity(result.Attributes.id);
+    } catch (error) {
+      console.error('Error updating user:', error);
+      throw error;
+    }
   }
 
   private mapToEntity(item: any): UserEntity {
