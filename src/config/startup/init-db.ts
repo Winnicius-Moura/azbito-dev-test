@@ -64,15 +64,13 @@ export async function initDatabase(): Promise<void> {
 
     for (const table of tables) {
       if (existingTables.includes(table.TableName)) {
-        console.log(`Tabela já existe: ${table.TableName}`)
         continue
       }
 
       await DynamoProvider.createTable(table);
-      console.log(`Tabela criada: ${table.TableName}`)
     }
 
-    console.log('Inicialização do banco finalizada.')
+    console.log('Db settings finish.')
   } catch (err) {
     console.error('Erro ao inicializar o banco:', err)
     throw err

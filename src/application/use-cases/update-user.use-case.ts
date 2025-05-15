@@ -1,5 +1,6 @@
-import { UserEntity, UserType } from "@/domain/models/user.entity"
+import { UserEntity} from "@/domain/models/user.entity"
 import { UserRepository } from "@/domain/repositories/user.repository"
+import { UserType } from "@/shared/utils/types"
 
 export class UpdateUserUseCase {
   constructor(private readonly repository: UserRepository.Repository<UserEntity>) { }

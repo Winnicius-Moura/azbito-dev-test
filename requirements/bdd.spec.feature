@@ -4,7 +4,7 @@ Este documento descreve os comportamentos esperados da aplicação com base no t
 Feature: Gerenciar Usuários
 
 **Como** um administrador da plataforma
-**Quero** poder cadastrar ✅, buscar ✅, listar✅, atualizar✅ e excluir usuários
+**Quero** poder cadastrar , buscar , listar, atualizar e excluir usuários ✅
 **Para que** eu tenha controle sobre quem usa o sistema
 
 Scenario: Criar usuário com sucesso
