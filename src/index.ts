@@ -4,6 +4,7 @@ import { initDatabase } from '@/config/startup/init-db'
 import userRoutes from '@/config/routes/user.routes'
 import establishmentRoutes from '@/config/routes/establishment.routes'
 import productsRoutes from '@/config/routes/products.routes'
+import establishmentRulesRoutes from '@/config/routes/establishmentRules.routes'
 
 dotenv.config()
 
@@ -15,12 +16,8 @@ app.use(express.json())
 app.use('/users', userRoutes)
 
 app.use('/establishments', establishmentRoutes)
-
+app.use('/establishments/rules', establishmentRulesRoutes)
 app.use('/products', productsRoutes)
-
-app.get('/', (req, res) => {
-  res.send('Hello World')
-})
 
 async function startServer() {
   try {

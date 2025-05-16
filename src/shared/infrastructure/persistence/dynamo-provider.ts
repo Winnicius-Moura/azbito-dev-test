@@ -1,4 +1,5 @@
 import { DynamoEstablishmentRepository } from '@/infra/repositories/dynamo/establishment.repositry'
+import { DynamoEstablishmentRulesRepository } from '@/infra/repositories/dynamo/establishmentRules.repository'
 import { DynamoProductRepository } from '@/infra/repositories/dynamo/product.repository'
 import { DynamoUserRepository } from '@/infra/repositories/dynamo/user.repository'
 import { DynamoService } from '@/shared/infrastructure/persistence/dynamo.service'
@@ -34,5 +35,9 @@ export class DynamoProvider {
 
   static getProductRepository(): DynamoProductRepository {
     return new DynamoProductRepository(this.getService())
+  }
+
+  static getEstablishmentRulesRepository(): DynamoEstablishmentRulesRepository {
+    return new DynamoEstablishmentRulesRepository(this.getService())
   }
 }

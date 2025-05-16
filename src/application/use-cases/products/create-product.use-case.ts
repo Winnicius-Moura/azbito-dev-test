@@ -3,6 +3,7 @@ import { ProductRepository } from "@/domain/repositories/product.repository";
 
 export class CreateProductUseCase {
   constructor(private readonly repository: ProductRepository.Repository<ProductEntity>) { }
+  // todo-aplicar regra de negocio
 
   async execute(input: ProductProps): Promise<ProductEntity> {
     const product = new ProductEntity({
