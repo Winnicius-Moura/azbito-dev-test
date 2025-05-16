@@ -65,11 +65,27 @@ export class DynamoEstablishmentRepository implements EstablishmentRepository.Re
     const result = await this.dynamoService.client.scan({
       TableName: this.tableName,
     }).promise()
-    if(!result.Items){
+    if (!result.Items) {
       return []
     }
 
     return result.Items.map((item) => this.mapToEntity(item))
+  }
+
+  async delete(id: string): Promise<void> {
+    try {
+      await this.dynamoService.client.delete({
+        TableName: this.tableName,
+        Key: { id },
+        ConditionExpression: 'attribute_exists(id)',
+      }).promise()
+    } catch (error) {
+      if ((error as any).code === 'ConditionalCheckFailedException') {
+        throw new Error(`Establishmen with id ${id} does not exist`);
+      }
+      throw error;
+    }
+
   }
 
   private toPersistence(entity: EstablishmentEntity): Record<string, any> {

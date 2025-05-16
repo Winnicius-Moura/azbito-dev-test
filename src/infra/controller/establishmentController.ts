@@ -1,4 +1,5 @@
 import { CreateEstablishmentUseCase } from "@/application/use-cases/establishment/create-establishment.use-case"
+import { DeleteEstablishmentUseCase } from "@/application/use-cases/establishment/delete-establishment.use-case"
 import { FindEstablishmentByIdUseCase } from "@/application/use-cases/establishment/findById-establishment.use-case"
 import { ListEstablishmentUseCase } from "@/application/use-cases/establishment/list-establishment.use-case"
 import { UpdateEstablishmentUseCase } from "@/application/use-cases/establishment/update-establishment.use-case"
@@ -73,6 +74,24 @@ export class EstablishmentController {
       res.status(500).json({ message: 'Internal server error' })
     }
   }
+
+  static async delete(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params
+      const repository = DynamoProvider.getEstablishmentRepository()
+      const useCase = new DeleteEstablishmentUseCase(repository)
+
+      await useCase.execute(id)
+      res.status(200).send({ message: 'Estabelecimento deletado' })
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('does not exist')) {
+        res.status(404).json({ message: error.message })
+      }
+
+      res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
 
 
 }

@@ -7,6 +7,6 @@ export namespace EstablishmentRepository {
     update(entity: E): Promise<E>
     findAll(): Promise<E[]>
     // findByType(type: string): Promise<E[]>
-    // delete(id: string): Promise<void>
+    delete(id: string): Promise<void>
   }
 }
