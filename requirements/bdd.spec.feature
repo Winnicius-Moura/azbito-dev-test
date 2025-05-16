@@ -22,7 +22,7 @@ Then deve retornar erro 400 com mensagem de tipo inválido ✅
 Feature: Criar Estabelecimento
 
 **Como** um usuário do tipo "owner"
-**Quero** cadastrar estabelecimentos
+**Quero** cadastrar estabelecimentos ✅
 **Para que** eu possa vender meus produtos
 
 Scenario: Criar estabelecimento com sucesso
@@ -30,13 +30,13 @@ Scenario: Criar estabelecimento com sucesso
 Given que o owner já está cadastrado com type = "owner"
 And envia os dados name e type (shopping/local)
 When o endpoint POST /establishments é chamado
-Then o estabelecimento é criado com ownerId associado
+Then o estabelecimento é criado com ownerId associado ✅
 
 Scenario: Impedir criação por customer
 
 Given que o user é do tipo "customer"
 When ele tenta criar um estabelecimento
-Then deve retornar erro de permissão
+Then deve retornar erro de permissão ✅
 
 Feature: Cadastro de Produtos
 
