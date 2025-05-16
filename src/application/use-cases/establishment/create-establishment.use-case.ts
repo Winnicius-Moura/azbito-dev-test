@@ -1,13 +1,13 @@
-import { EstablishmentEntity, EstablishmentProps } from '@/domain/models/establishment.entity';
-import { UserEntity } from '@/domain/models/user.entity';
-import { UserRepository } from '@/domain/repositories/user.repository';
-import { RepositoryInterface } from '@/shared/repositories/repository-contracts';
-import { EstablishmentType, UserType } from '@/shared/utils/types';
+import { EstablishmentEntity, EstablishmentProps } from '@/domain/models/establishment.entity'
+import { UserEntity } from '@/domain/models/user.entity'
+import { UserRepository } from '@/domain/repositories/user.repository'
+import { EstablishmentRepository } from '@/domain/repositories/establishment.repository'
+import { EstablishmentType, UserType } from '@/shared/utils/types'
 
 export class CreateEstablishmentUseCase {
   constructor(
     private readonly userRepository: UserRepository.Repository<UserEntity>,
-    private readonly establishmentRepository: RepositoryInterface<EstablishmentEntity>
+    private readonly establishmentRepository: EstablishmentRepository.Repository<EstablishmentEntity>
   ) { }
 
   async execute(input: EstablishmentProps): Promise<EstablishmentEntity> {

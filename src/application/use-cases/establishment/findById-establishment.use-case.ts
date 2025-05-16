@@ -1,8 +1,8 @@
 import { EstablishmentEntity } from '@/domain/models/establishment.entity'
-import { RepositoryInterface } from '@/shared/repositories/repository-contracts'
+import { EstablishmentRepository } from '@/domain/repositories/establishment.repository'
 
 export class FindEstablishmentByIdUseCase {
-  constructor(private readonly repository: RepositoryInterface<EstablishmentEntity>) { }
+  constructor(private readonly repository: EstablishmentRepository.Repository<EstablishmentEntity>) { }
 
   async execute(id: string): Promise<EstablishmentEntity | null> {
     try {

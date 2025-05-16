@@ -1,8 +1,8 @@
 import { EstablishmentEntity } from '@/domain/models/establishment.entity';
+import { EstablishmentRepository } from '@/domain/repositories/establishment.repository';
 import { DynamoService } from '@/shared/infrastructure/persistence/dynamo.service';
-import { RepositoryInterface } from '@/shared/repositories/repository-contracts';
 
-export class DynamoEstablishmentRepository implements RepositoryInterface<EstablishmentEntity> {
+export class DynamoEstablishmentRepository implements EstablishmentRepository.Repository<EstablishmentEntity> {
   private readonly tableName = 'Establishments';
 
   constructor(private readonly dynamoService: DynamoService) { }
