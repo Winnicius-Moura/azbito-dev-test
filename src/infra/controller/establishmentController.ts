@@ -1,5 +1,6 @@
 import { CreateEstablishmentUseCase } from "@/application/use-cases/establishment/create-establishment.use-case"
 import { FindEstablishmentByIdUseCase } from "@/application/use-cases/establishment/findById-establishment.use-case"
+import { ListEstablishmentUseCase } from "@/application/use-cases/establishment/list-establishment.use-case"
 import { UpdateEstablishmentUseCase } from "@/application/use-cases/establishment/update-establishment.use-case"
 import { DynamoProvider } from "@/shared/infrastructure/persistence/dynamo-provider"
 import { Request, Response } from 'express'
@@ -58,6 +59,18 @@ export class EstablishmentController {
           error: error instanceof Error ? error.message : 'Update failed'
         })
       }
+    }
+  }
+
+  static async findAll(_req: Request, res: Response): Promise<void> {
+    try {
+      const repository = DynamoProvider.getEstablishmentRepository()
+      const useCase = new ListEstablishmentUseCase(repository)
+      const establishments = await useCase.execute()
+
+      res.status(200).json(establishments?.map((establishment) => establishment.toJSON()))
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error' })
     }
   }
 

@@ -6,17 +6,17 @@ export class UpdateUserUseCase {
   constructor(private readonly repository: UserRepository.Repository<UserEntity>) { }
 
   async execute(id: string, input: UserProps): Promise<UserEntity> {
-    const existingUser = await this.repository.findById(id);
-    if (!existingUser) {
+    const response = await this.repository.findById(id);
+    if (!response) {
       throw new Error('User not found');
     }
 
-    existingUser.update({
+    response.update({
       name: input.name,
       email: input.email,
-      type: input.type ? UserType.validate(input.type) : existingUser.props.type,
+      type: input.type ? UserType.validate(input.type) : response.props.type,
     });
 
-    return this.repository.update(existingUser)
+    return this.repository.update(response)
   }
 }
