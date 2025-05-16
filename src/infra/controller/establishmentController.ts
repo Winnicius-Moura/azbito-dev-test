@@ -1,5 +1,6 @@
 import { CreateEstablishmentUseCase } from "@/application/use-cases/establishment/create-establishment.use-case"
 import { FindEstablishmentByIdUseCase } from "@/application/use-cases/establishment/findById-establishment.use-case"
+import { UpdateEstablishmentUseCase } from "@/application/use-cases/establishment/update-establishment.use-case"
 import { DynamoProvider } from "@/shared/infrastructure/persistence/dynamo-provider"
 import { Request, Response } from 'express'
 
@@ -39,4 +40,26 @@ export class EstablishmentController {
       })
     }
   }
+
+  static async update(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params
+      const repository = DynamoProvider.getEstablishmentRepository()
+      const useCase = new UpdateEstablishmentUseCase(repository)
+      const establishment = await useCase.execute(id, req.body)
+
+      res.status(200).json({ establishment, message: `Establishment ${establishment.props.name} updated!` })
+    } catch (error) {
+      if (error === 'Establishmenter not found') {
+        res.status(404).json({ message: error })
+      } else {
+        console.error('UpdateEstablishment error:', error)
+        res.status(400).json({
+          error: error instanceof Error ? error.message : 'Update failed'
+        })
+      }
+    }
+  }
+
+
 }

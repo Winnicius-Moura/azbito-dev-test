@@ -29,6 +29,37 @@ export class DynamoEstablishmentRepository implements EstablishmentRepository.Re
     return this.mapToEntity(result.Item);
   }
 
+  async update(entity: EstablishmentEntity): Promise<EstablishmentEntity> {
+      const updatedAt = new Date()
+  
+      const params = {
+        TableName: this.tableName,
+        Key: { id: entity.id },
+        UpdateExpression: 'SET #name = :name, #ownerId = :ownerId, #type = :type, #updatedAt = :updatedAt',
+        ConditionExpression: 'attribute_exists(id)',
+        ExpressionAttributeNames: {
+          '#name': 'name',
+          '#ownerId': 'ownerId',
+          '#type': 'type',
+          '#updatedAt': 'updatedAt'
+        },
+        ExpressionAttributeValues: {
+          ':name': entity.props.name,
+          ':ownerId': entity.props.ownerId,
+          ':type': entity.props.type,
+          ':updatedAt': updatedAt.toISOString()
+        },
+        ReturnValues: 'ALL_NEW'
+      }
+  
+      try {
+        const result = await this.dynamoService.client.update(params).promise()
+        return this.mapToEntity(result.Attributes)
+      } catch (error) {
+        console.error('Error updating user:', error)
+        throw error
+      }
+    }
 
   private toPersistence(entity: EstablishmentEntity): Record<string, any> {
     return {
