@@ -41,7 +41,7 @@ Then deve retornar erro de permissão ✅
 Feature: Cadastro de Produtos
 
 **Como** um dono de estabelecimento
-**Quero** adicionar produtos no meu local
+**Quero** adicionar produtos no meu local 
 **Para que** meus clientes possam visualizá-los
 
 Scenario: Criar produto com sucesso
