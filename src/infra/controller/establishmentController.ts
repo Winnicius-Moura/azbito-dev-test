@@ -1,9 +1,11 @@
 import { CreateEstablishmentUseCase } from "@/application/use-cases/establishment/create-establishment.use-case"
 import { DeleteEstablishmentUseCase } from "@/application/use-cases/establishment/delete-establishment.use-case"
 import { FindEstablishmentByIdUseCase } from "@/application/use-cases/establishment/findById-establishment.use-case"
+import { FindEstablishmentsByTypeUseCase } from "@/application/use-cases/establishment/findByType-establishment.use-case"
 import { ListEstablishmentUseCase } from "@/application/use-cases/establishment/list-establishment.use-case"
 import { UpdateEstablishmentUseCase } from "@/application/use-cases/establishment/update-establishment.use-case"
 import { DynamoProvider } from "@/shared/infrastructure/persistence/dynamo-provider"
+import { EstablishmentType } from "@/shared/utils/types"
 import { Request, Response } from 'express'
 
 export class EstablishmentController {
@@ -72,6 +74,21 @@ export class EstablishmentController {
       res.status(200).json(establishments?.map((establishment) => establishment.toJSON()))
     } catch (error) {
       res.status(500).json({ message: 'Internal server error' })
+    }
+  }
+
+  static async findByType(req: Request, res: Response): Promise<void> {
+    try {
+      const { type } = req.query;
+      const repository = DynamoProvider.getEstablishmentRepository()
+      const useCase = new FindEstablishmentsByTypeUseCase(repository)
+
+      const validatedType = EstablishmentType.validate(type?.toString() || '');
+      const establishments = await useCase.execute(validatedType)
+
+      res.status(200).json(establishments.map(establishment => establishment.toJSON()))
+    } catch (error) {
+      res.status(500).json({ message: 'Error retrieving establishments' });
     }
   }
 

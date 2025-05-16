@@ -72,6 +72,18 @@ export class DynamoEstablishmentRepository implements EstablishmentRepository.Re
     return result.Items.map((item) => this.mapToEntity(item))
   }
 
+  async findByType(type: string): Promise<EstablishmentEntity[]> {
+    const result = await this.dynamoService.client.scan({
+      TableName: this.tableName,
+      FilterExpression: '#type = :type',
+      ExpressionAttributeNames: { '#type': 'type' },
+      ExpressionAttributeValues: { ':type': type },
+    }).promise()
+
+    return (result.Items || []).map(this.mapToEntity)
+  }
+
+
   async delete(id: string): Promise<void> {
     try {
       await this.dynamoService.client.delete({
@@ -85,7 +97,6 @@ export class DynamoEstablishmentRepository implements EstablishmentRepository.Re
       }
       throw error;
     }
-
   }
 
   private toPersistence(entity: EstablishmentEntity): Record<string, any> {
