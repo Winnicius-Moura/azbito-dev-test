@@ -25,6 +25,20 @@ export class EstablishmentRulesEntity extends Entity<EstablishmentRulesProps> {
       throw new Error('Invalid videoLimit')
   }
 
+  validateProductCreation(currentProductCount: number, currentVideoCount: number,): void {
+    if (currentProductCount >= this.props.picturesLimit) {
+      throw new Error(
+        `Cannot create product: limit of ${this.props.picturesLimit} reached for this establishment`
+      );
+    }
+    if (currentVideoCount >= this.props.videoLimit) {
+      throw new Error(
+        `Cannot create product with video: video limit of ${this.props.videoLimit} reached.`
+      );
+    }
+
+  }
+
   update(value: Partial<Pick<EstablishmentRulesProps, 'establishmentId' | 'videoLimit' | 'picturesLimit'>>): void {
     if (value.establishmentId !== undefined) this.props.establishmentId = value.establishmentId
     if (value.picturesLimit !== undefined) this.props.picturesLimit = value.picturesLimit

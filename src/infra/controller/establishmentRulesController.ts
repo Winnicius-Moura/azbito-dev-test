@@ -1,6 +1,6 @@
 import { CreateEstablishmentRulesUseCase } from '@/application/use-cases/establishmentRules/create-establishmentRules.use-case';
 import { DeleteEstablishmentRulesUseCase } from '@/application/use-cases/establishmentRules/delete-establishmentRules.use-case';
-import { FindEstablishmentRulesByEstablishmentIdUseCase } from '@/application/use-cases/establishmentRules/findByEstablishmentId-establishmentRules.use-case';
+import { FindEstablishmentRulesByEstablishmentIdUseCase } from '@/application/use-cases/establishmentRules/findById-establishmentRules.use-case';
 import { UpdateEstablishmentRulesUseCase } from '@/application/use-cases/establishmentRules/update-establishmentRules.use-case';
 import { DynamoProvider } from '@/shared/infrastructure/persistence/dynamo-provider';
 import { Request, Response } from 'express';

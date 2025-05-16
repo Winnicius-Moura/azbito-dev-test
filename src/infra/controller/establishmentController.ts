@@ -65,7 +65,23 @@ export class EstablishmentController {
     }
   }
 
-  static async findAll(_req: Request, res: Response): Promise<void> {
+  static async findAll(req: Request, res: Response): Promise<void> {
+    const { type } = req.query;
+
+    if (type) {
+      try {
+        const repository = DynamoProvider.getEstablishmentRepository()
+        const useCase = new FindEstablishmentsByTypeUseCase(repository)
+
+        const validatedType = EstablishmentType.validate(type?.toString() || '');
+        const establishments = await useCase.execute(validatedType)
+
+        res.status(200).json(establishments.map(establishment => establishment.toJSON()))
+      } catch (error) {
+        res.status(500).json({ message: 'Error retrieving establishments' });
+      }
+    }
+
     try {
       const repository = DynamoProvider.getEstablishmentRepository()
       const useCase = new ListEstablishmentUseCase(repository)
@@ -74,21 +90,6 @@ export class EstablishmentController {
       res.status(200).json(establishments?.map((establishment) => establishment.toJSON()))
     } catch (error) {
       res.status(500).json({ message: 'Internal server error' })
-    }
-  }
-
-  static async findByType(req: Request, res: Response): Promise<void> {
-    try {
-      const { type } = req.query;
-      const repository = DynamoProvider.getEstablishmentRepository()
-      const useCase = new FindEstablishmentsByTypeUseCase(repository)
-
-      const validatedType = EstablishmentType.validate(type?.toString() || '');
-      const establishments = await useCase.execute(validatedType)
-
-      res.status(200).json(establishments.map(establishment => establishment.toJSON()))
-    } catch (error) {
-      res.status(500).json({ message: 'Error retrieving establishments' });
     }
   }
 

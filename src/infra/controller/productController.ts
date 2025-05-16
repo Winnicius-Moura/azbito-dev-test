@@ -10,7 +10,8 @@ export class ProductController {
   static async create(req: Request, res: Response) {
     try {
       const repo = DynamoProvider.getProductRepository()
-      const useCase = new CreateProductUseCase(repo)
+      const rules = DynamoProvider.getEstablishmentRulesRepository()
+      const useCase = new CreateProductUseCase(rules, repo)
       const product = await useCase.execute(req.body)
       res.status(201).json(product.toJSON())
     } catch (error) {
