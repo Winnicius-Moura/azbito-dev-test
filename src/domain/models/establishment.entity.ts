@@ -18,12 +18,12 @@ export class EstablishmentEntity extends Entity<EstablishmentProps> {
   }
 
   static validate(props: EstablishmentProps): void {
-    if (!props.name) throw new Error('Name is required')
-    if (!props.ownerId) throw new Error('OwnerId is required')
+    if (!props.name || props.name.trim() === '') throw new Error('Name is required')
+    if (!props.ownerId || props.ownerId.trim() === '') throw new Error('OwnerId is required')
     EstablishmentType.validate(props.type)
   }
 
-  update(value: Partial<Pick<EstablishmentProps, 'name' | 'type'| 'ownerId'>>): void {
+  update(value: Partial<Pick<EstablishmentProps, 'name' | 'type' | 'ownerId'>>): void {
     if (value.name !== undefined) this.props.name = value.name
     if (value.type !== undefined) this.props.type = value.type
     if (value.ownerId !== undefined) this.props.ownerId = value.ownerId

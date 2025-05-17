@@ -14,15 +14,17 @@ export class UserEntity extends Entity<UserProps> {
     public readonly props: UserProps,
     id?: string,
   ) {
+    UserEntity.validate(props)
     super(props, id)
     this.props.createdAt = this.props.createdAt ?? new Date()
     this.props.updatedAt = this.props.updatedAt ?? undefined
     this.props.type = this.props.type || UserType.CUSTOMER
   }
 
+
   static validate(props: UserProps) {
-    if (!props.name) throw new Error('Name is required');
-    if (!props.email.includes('@')) throw new Error('Invalid email');
+    if (!props.name || props.name.trim() === '') throw new Error('Name is required');
+    if (!props.email.includes('@') || !props.email) throw new Error('Invalid email');
     UserType.validate(props.type)
   }
 

@@ -17,8 +17,8 @@ export class ProductEntity extends Entity<ProductProps> {
   }
 
   static validate(props: ProductProps): void {
-    if (!props.name) throw new Error('Name is required');
-    if (typeof props.price !== 'number' || props.price < 0) throw new Error('Invalid price');
+    if (!props.name || props.name.trim() === '') throw new Error('Name is required');
+    if (typeof props.price !== 'number' || props.price < 0 || props.price <= 0 || isNaN(props.price)) throw new Error('Invalid price');
     if (!props.establishmentId) throw new Error('EstablishmentId is required');
   }
 
