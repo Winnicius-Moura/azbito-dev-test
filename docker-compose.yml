@@ -8,11 +8,6 @@ services:
     volumes:
       - dynamodb_data:/home/dynamodblocal
     command: -jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal
-    healthcheck:
-      test: ["CMD-SHELL", "wget --spider -q http://localhost:8000 || exit 1"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
 
   dynamodb-admin:
     image: aaronshaf/dynamodb-admin
@@ -22,24 +17,6 @@ services:
       - DYNAMO_ENDPOINT=http://dynamodb-local:8000
     depends_on:
       - dynamodb-local
-
-  app:
-    build: .
-    container_name: app
-    ports:
-      - "3000:3000"
-    depends_on:
-      dynamodb-local:
-        condition: service_healthy
-    environment:
-      - AWS_ACCESS_KEY_ID=fake
-      - AWS_SECRET_ACCESS_KEY=fake
-      - AWS_REGION=local
-      - DYNAMODB_ENDPOINT=http://dynamodb-local:8000
-    volumes:
-      - ./:/app
-      - /app/node_modules
-    command: sh -c "npm install && npm run setup && npm run dev"
 
 volumes:
   dynamodb_data:

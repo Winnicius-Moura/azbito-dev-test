@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only --require tsconfig-paths/register src/index.ts",
     "test": "jest --no-cache --watchAll",
-    "docker:dev": "docker-compose up --build"
+    "docker:dev": "docker-compose up --build",
+    "docker:setup": "docker-compose run app npm run setup"
   },
   "keywords": [],
   "author": "",
