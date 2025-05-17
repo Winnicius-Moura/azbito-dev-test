@@ -51,8 +51,8 @@ export class DynamoProductRepository implements ProductRepository.Repository<Pro
       name: entity.props.name,
       price: entity.props.price,
       establishmentId: entity.props.establishmentId,
-      createdAt: entity.props.createdAt,
-      updatedAt: entity.props.updatedAt,
+      createdAt: entity.props.createdAt ?? new Date(),
+      updatedAt: entity.props.updatedAt ? new Date(entity.props.updatedAt) : undefined,
     };
   }
 

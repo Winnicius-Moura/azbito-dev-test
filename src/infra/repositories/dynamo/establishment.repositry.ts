@@ -77,8 +77,8 @@ export class DynamoEstablishmentRepository implements EstablishmentRepository.Re
       name: entity.props.name,
       ownerId: entity.props.ownerId,
       type: entity.props.type,
-      createdAt: entity.props.createdAt,
-      updatedAt: entity.props.updatedAt,
+      createdAt: entity.props.createdAt ?? new Date(),
+      updatedAt: entity.props.updatedAt ? new Date(entity.props.updatedAt) : undefined,
     }
   }
 
