@@ -38,8 +38,7 @@ Os seguintes scripts estão disponíveis no projeto:
 - DynamoDB  
 - Jest
 
-- Swagger 
-- Docker
+- Docker 
+- Swagger http://localhost:3000/api-docs/#/
+- DynamoAdmin http://localhost:8001/
 
-## Licença
-Este projeto está licenciado sob a licença ISC.  
