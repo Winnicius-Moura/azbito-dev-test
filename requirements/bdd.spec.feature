@@ -32,51 +32,51 @@ And envia os dados name e type (shopping/local)
 When o endpoint POST /establishments é chamado
 Then o estabelecimento é criado com ownerId associado ✅
 
-Scenario: Impedir criação por customer
+Scenario: Impedir criação por customer ✅
 
 Given que o user é do tipo "customer"
 When ele tenta criar um estabelecimento
-Then deve retornar erro de permissão ✅
+Then deve retornar erro de permissão 
 
-Feature: Cadastro de Produtos
+Feature: Cadastro de Produtos ✅
 
 **Como** um dono de estabelecimento
 **Quero** adicionar produtos no meu local 
-**Para que** meus clientes possam visualizá-los
+**Para que** meus clientes possam visualizá-los  
 
 Scenario: Criar produto com sucesso
 
 Given que um estabelecimento existe
 And ele possui regras configuradas (EstablishmentRules)
 When um produto é enviado com name, price e establishmentId
-Then o produto é criado com sucesso
+Then o produto é criado com sucesso ✅
 
-Scenario: Criar produto sem regras
+Scenario: Criar produto sem regras 
 
 Given que um estabelecimento existe
 And ele não possui regras configuradas
 When tenta criar produto
-Then deve retornar erro de regra não encontrada
+Then deve retornar erro de regra não encontrada ✅
 
-Feature: Cadastro de Regras de Estabelecimento
+Feature: Cadastro de Regras de Estabelecimento ✅
 
 **Como** um administrador ou dono de estabelecimento
-**Quero** configurar limites de fotos e víeos
+**Quero** configurar limites de fotos e vídeos
 **Para que** os produtos respeitem essas regras
 
-Scenario: Criar regras com sucesso
+Scenario: Criar regras com sucesso ✅
 
 Given que um estabelecimento já existe
 When envio establishmentId, picturesLimit e videoLimit
 Then a regra é salva para o estabelecimento
 
-Scenario: Atualizar regras
+Scenario: Atualizar regras ✅
 
 Given que a regra já existe
 When envio novos valores para limits
 Then os valores são atualizados corretamente
 
-Scenario: Deletar regra
+Scenario: Deletar regra ✅
 
 Given que uma regra existe
 When o endpoint DELETE /rules/:id é chamado
