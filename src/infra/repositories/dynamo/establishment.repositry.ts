@@ -1,4 +1,4 @@
-import { EstablishmentEntity } from '@/domain/models/establishment.entity';
+import { EstablishmentEntity, EstablishmentProps } from '@/domain/models/establishment.entity';
 import { EstablishmentRepository } from '@/domain/repositories/establishment.repository';
 import { DynamoService } from '@/shared/infrastructure/persistence/dynamo.service';
 
@@ -71,24 +71,25 @@ export class DynamoEstablishmentRepository implements EstablishmentRepository.Re
     }
   }
 
-  private toPersistence(entity: EstablishmentEntity): Record<string, any> {
+  private toPersistence(entity: EstablishmentEntity): EstablishmentProps {
     return {
       id: entity.id,
       name: entity.props.name,
       ownerId: entity.props.ownerId,
       type: entity.props.type,
-      createdAt: entity.props.createdAt ?? new Date(),
+      createdAt: entity.props.createdAt?.toISOString(),
       updatedAt: entity.props.updatedAt ? new Date(entity.props.updatedAt) : undefined,
-    }
+    } as EstablishmentProps
   }
+
 
   private mapToEntity(item: any): EstablishmentEntity {
     return new EstablishmentEntity({
       name: item.name,
       ownerId: item.ownerId,
       type: item.type,
-      createdAt: new Date(item.createdAt),
-      updatedAt: item.updatedAt ? new Date(item.updatedAt) : undefined,
+      createdAt: item.createdAt,
+      updatedAt: item.updatedAt,
     }, item.id);
   }
 }

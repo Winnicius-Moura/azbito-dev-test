@@ -27,7 +27,7 @@ export class DynamoProductRepository implements ProductRepository.Repository<Pro
   }
 
   async update(product: ProductEntity): Promise<ProductEntity> {
-    return this.save(product); 
+    return this.save(product);
   }
 
   async delete(id: string): Promise<void> {
@@ -51,7 +51,7 @@ export class DynamoProductRepository implements ProductRepository.Repository<Pro
       name: entity.props.name,
       price: entity.props.price,
       establishmentId: entity.props.establishmentId,
-      createdAt: entity.props.createdAt ?? new Date(),
+      createdAt: entity.props.createdAt?.toISOString(),
       updatedAt: entity.props.updatedAt ? new Date(entity.props.updatedAt) : undefined,
     };
   }
@@ -61,8 +61,8 @@ export class DynamoProductRepository implements ProductRepository.Repository<Pro
       name: data.name,
       price: data.price,
       establishmentId: data.establishmentId,
-      createdAt: new Date(data.createdAt),
-      updatedAt: data.updatedAt ? new Date(data.updatedAt) : undefined,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
     }, data.id);
   }
 }

@@ -71,7 +71,7 @@ export class DynamoUserRepository implements UserRepository.Repository<UserEntit
       name: user.props.name,
       email: user.props.email,
       type: user.props.type,
-      createdAt: user.props.createdAt ?? new Date(),
+      createdAt: user.props.createdAt?.toISOString(),
       updatedAt: user.props.updatedAt ? new Date(user.props.updatedAt) : undefined,
     } as UserProps
   }
