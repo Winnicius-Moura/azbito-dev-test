@@ -16,9 +16,9 @@ export class UserEntity extends Entity<UserProps> {
   ) {
     UserEntity.validate(props)
     super(props, id)
-    this.props.createdAt = this.props.createdAt ?? new Date()
-    this.props.updatedAt = this.props.updatedAt ?? undefined
-    this.props.type = this.props.type || UserType.CUSTOMER
+    this.props.createdAt = props.createdAt ?? new Date()
+    this.props.updatedAt = props.updatedAt ?? undefined
+    this.props.type = props.type || UserType.CUSTOMER
   }
 
 

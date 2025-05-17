@@ -56,7 +56,7 @@ export class DynamoEstablishmentRulesRepository implements EstablishmentRulesRep
       establishmentId: entity.props.establishmentId,
       picturesLimit: entity.props.picturesLimit,
       videoLimit: entity.props.videoLimit,
-      createdAt: entity.props.createdAt ?? new Date(),
+      createdAt: entity.props.createdAt,
       updatedAt: entity.props.updatedAt,
     } as EstablishmentRulesProps
   }

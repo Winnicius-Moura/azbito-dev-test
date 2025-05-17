@@ -41,7 +41,7 @@ export class DynamoUserRepository implements UserRepository.Repository<UserEntit
       return []
     }
 
-    return result.Items.map((item) => this.mapToEntity(item))
+    return result.Items?.map((item) => this.mapToEntity(item))
   }
 
   async delete(id: string): Promise<void> {
@@ -61,13 +61,8 @@ export class DynamoUserRepository implements UserRepository.Repository<UserEntit
   }
 
   private mapToEntity(item: any): UserEntity {
-    return new UserEntity({
-      name: item.name,
-      email: item.email,
-      type: item.type,
-      createdAt: new Date(item.createdAt),
-      updatedAt: item.updatedAt ? new Date(item.updatedAt) : undefined,
-    }, item.id)
+    const entity = new UserEntity(item, item.id)
+    return entity
   }
 
   private toPersistence(user: UserEntity): UserProps {
@@ -76,8 +71,8 @@ export class DynamoUserRepository implements UserRepository.Repository<UserEntit
       name: user.props.name,
       email: user.props.email,
       type: user.props.type,
-      createdAt: user.props.createdAt?.toISOString(),
-      updatedAt: user.props.updatedAt ? new Date(user.props.updatedAt) : undefined,
+      createdAt: user.props.createdAt,
+      updatedAt: user.props.updatedAt,
     } as UserProps
   }
 }

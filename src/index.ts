@@ -5,6 +5,10 @@ import userRoutes from '@/config/routes/user.routes'
 import establishmentRoutes from '@/config/routes/establishment.routes'
 import productsRoutes from '@/config/routes/products.routes'
 import establishmentRulesRoutes from '@/config/routes/establishmentRules.routes'
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from '@/swagger'
+
+
 
 dotenv.config()
 
@@ -18,7 +22,7 @@ app.use('/users', userRoutes)
 app.use('/establishments', establishmentRoutes)
 app.use('/establishments/rules', establishmentRulesRoutes)
 app.use('/products', productsRoutes)
-
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 async function startServer() {
   try {
     await initDatabase()
